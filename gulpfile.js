@@ -13,9 +13,9 @@ const webp = require('gulp-webp');
 const avif = require('gulp-avif');
 
 function css( done ) {
-    src('src/scss/app.scss')
+    src('src/scss/app.scss' )
         .pipe( sourcemaps.init() )
-        .pipe( sass() )
+        .pipe( sass({outputStyle: 'compressed'}).on('error', sass.logError)) 
         .pipe( postcss([ autoprefixer(), cssnano() ]) )
         .pipe( sourcemaps.write('.'))
         .pipe( dest('build/css') )
@@ -57,4 +57,6 @@ exports.dev = dev;
 exports.imagenes = imagenes;
 exports.versionWebp = versionWebp;
 exports.versionAvif = versionAvif;
-exports.default = series( imagenes, versionWebp, versionAvif, css, dev  );
+
+/* exports.default = series( imagenes, versionWebp, versionAvif, css, dev  ); */
+exports.default = series( css, dev  );
